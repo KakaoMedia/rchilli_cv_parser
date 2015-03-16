@@ -6,4 +6,7 @@
 /doc/
 /pkg/
 /spec/reports/
+.idea/*
+.idea
+.idea/
 /tmp/
