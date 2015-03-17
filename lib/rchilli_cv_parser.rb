@@ -1,11 +1,8 @@
 require "rchilli_cv_parser/version"
 
-module RchilliCvParser
-  # Your code goes here...
-  class Client
+require 'rchilli_cv_parser/client'
+require 'rchilli_cv_parser/util'
 
-  	def initialize
-  	end
-  	
-  end
+module RchilliCvParser
+  # cms..
 end
