@@ -1,5 +1,5 @@
 module RchilliCvParser
-  module Util
+  module Exceptions
 
     class RchilliCvError < StandardError
       attr_reader :data

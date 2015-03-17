@@ -4,54 +4,49 @@ module RchilliCvParser
 
   class Client
 
+    attr_reader :savon_client
+
     def initialize(options = {})
-      @wsdl = options[:wsdl]
-      @url = options[:url]
-      @user_key = options[:userkey]
+      @user_key = options[:user_key]
       @version = options[:version]
       @sub_user_id = options[:sub_user_id]
+      init_parser
+    end
 
-      @client = Savon.client(wsdl: @wsdl)
+    def init_parser
+      @savon_client = Savon.client(wsdl: 'http://java.rchilli.com/RChilliParser/services/RChilliParser?wsdl')
     end
 
     def operations
-      @client.operations
+      @savon_client.operations
     end
 
     def set_logger(logger)
       @logger = logger
     end
 
-    def parse(operation, data_fields)
+    def parse(cv_url)
       begin
-        response = get_response(operation)
+        response = send_request(cv_url)
       rescue Exception => e
         @logger.log(e) if @logger
-        return nil
+        puts e
       end
 
-      parse_xml(response.body, data_fields)
+      parse_xml(response.body[:parse_resume_response][:return])
     end
 
 
     protected
 
-    def send_request(operation)
-
-      operation = operation.to_sym
-
-      if operations.include?(operation)
-        @response = @client.call(operation, message:
-                                              { url: @url, userkey: @user_key, version: @version, subUserId: @sub_user_id })
-      else
-        raise InvalidOperationError
-      end
-
+    def send_request(cv_url)
+        @savon_client.call(:parse_resume, message: { url: cv_url, userkey: @user_key, version: @version, subUserId: @sub_user_id })
     end
 
 
-    def parse_xml(response, xml)
-      #...
+    def parse_xml(response)
+      parser = Nori.new
+      parser.parse response
     end
 
 
