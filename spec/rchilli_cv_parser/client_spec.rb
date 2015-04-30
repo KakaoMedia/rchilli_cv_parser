@@ -5,7 +5,7 @@ module RchilliCvParser
 
   describe Client do
 
-    let(:client) { Client.new(user_key: ENV['RCHILLI_USER_KEY'], sub_user_id: ENV['RCHILLI_SUBUSER_ID'], version: ENV['RCHILLI_VERSION']   ) }
+    let(:client) { Client.new(url: ENV['RCHILLI_URL'],user_key: ENV['RCHILLI_USER_KEY'], sub_user_id: ENV['RCHILLI_SUBUSER_ID'], version: ENV['RCHILLI_VERSION']   ) }
 
     describe "#init_client"
       it "should be an instance of Savon::Client" do
@@ -15,7 +15,8 @@ module RchilliCvParser
 
     describe '#parse' do
       it "should return a parsed CV" do
-        client = Client.new(user_key: ENV['RCHILLI_USER_KEY'],
+        client = Client.new(url: ENV['RCHILLI_URL'],
+                            user_key: ENV['RCHILLI_USER_KEY'],
                             sub_user_id: ENV['RCHILLI_SUBUSER_ID'],
                             version: ENV['RCHILLI_VERSION']   )
 
