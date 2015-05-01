@@ -1,23 +1,30 @@
 module RchilliCvParser
   class Applicant
+  
+    attr_reader :cv_response
+    
+    BASIC_DETAILS = ['FirstName', 'LastName', 'Email', 'Phone', 'Nationality', 'Address', 'City', 'State',
+                     'Country', 'ZipCode', 'Address', 'DateOfBirth']
+
+    ADDITIONAL_DETAILS = ['Gender', 'Category', 'SubCategory', 'CurrentSalary', 'Qualification', 'VisaStatus',
+                          'MaritalStatus', 'Hobbies', 'JobProfile', 'CurrentEmployer']
+
+  
     def initialize(cv_response = {})
       @cv_response = cv_response
     end
-
-    def basic_details
-      @basic_details ||= begin
-        basic_details= {}
-        basic_details['first_name'] = @cv_response['ResumeParserData']['FirstName']
-        basic_details['last_name'] = @cv_response['ResumeParserData']['LastName']
-        basic_details['email'] = @cv_response['ResumeParserData']['Email']
-        basic_details['phone'] = @cv_response['ResumeParserData']['Phone']
-        basic_details['nationality'] = @cv_response['ResumeParserData']['Nationality']
-        basic_details['address'] = @cv_response['ResumeParserData']['Address']
-        basic_details['city'] = @cv_response['ResumeParserData']['City']
-        basic_details['State'] = @cv_response['ResumeParserData']['state']
-        basic_details['country'] = @cv_response['ResumeParserData']['Country']
-        basic_details['zip_code'] = @cv_response['ResumeParserData']['ZipCode']
-        basic_details.to_struct('BasicDetails')
+    
+    def base_node
+      @cv_response['ResumeParserData']
+    end
+    
+    ["basic_details", "additional_details"].each do |action|
+  	  define_method(action) do
+          hash, result = {}
+          Applicant.const_get(action.upcase).each do |attr|
+            hash[attr.to_underscore] = base_node[attr]
+          end
+          result ||= hash.to_struct(action.camelize)
       end
     end
 
