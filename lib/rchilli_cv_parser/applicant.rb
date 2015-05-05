@@ -40,11 +40,11 @@ module RchilliCvParser
     protected
 
     def educations_node
-      @base_node['SegregatedQualification']['EducationSplit']
+      @base_node['SegregatedQualification'].nil? ? [] : @base_node['SegregatedQualification']['EducationSplit']
     end
 
     def experiences_node
-      @base_node['SegregatedExperience']['WorkHistory']
+      @base_node['SegregatedExperience'].nil? ? [] : @base_node['SegregatedExperience']['WorkHistory']
     end
 
   end

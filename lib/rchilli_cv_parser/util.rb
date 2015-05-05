@@ -13,9 +13,11 @@ module RchilliCvParser
 
     def extract_collection_values(raw_collection, attributes)
       collection = []
-
-      raw_collection.each do |node|
-        collection << extract_values(attributes, node)
+      
+      if raw_collection.length > 0
+        raw_collection.each do |node|
+          collection << extract_values(attributes, node)
+        end
       end
 
       collection
