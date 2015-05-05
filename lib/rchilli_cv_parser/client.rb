@@ -24,12 +24,15 @@ module RchilliCvParser
     end
 
     def parse(cv_url)
+      tries = 0    
       begin
         response = send_request(cv_url)
         cv_data = parse_xml(response.body[:parse_resume_response][:return])
         Applicant.new cv_data
       rescue Exception => e
-        @logger.log(e) if @logger
+        @logger.log(e) if @logger 
+        tries += 1
+        retry if tries <= 3
       end
     end
 
