@@ -22,19 +22,19 @@ module RchilliCvParser
     end
 
     def basic_details
-      @basic_details_strucs ||= extract_values(BASIC_DETAILS, @base_node)
+      @basic_details ||= extract_values(BASIC_DETAILS, @base_node, 'BASIC_DETAILS')
     end
 
     def experiences
-      @experiences_collection ||= extract_collection_values(experiences_node, EXPERIENCE_ATTRIBUTES)
+      @experiences_collection ||= extract_collection_values(experiences_node, EXPERIENCE_ATTRIBUTES, 'EXPERIENCE')
     end
 
     def educations
-      @educations_collection ||= extract_collection_values(educations_node, EDUCATION_ATTRIBUTES)
+      @educations_collection ||= extract_collection_values(educations_node, EDUCATION_ATTRIBUTES, 'EDUCATION')
     end
 
     def worked_period
-      @worked_period_struc ||= extract_values(WORKED_PERIOD, @base_node['WorkedPeriod'])
+      @worked_period ||= extract_values(WORKED_PERIOD, @base_node['WorkedPeriod'], 'WORKED_PERIOD')
     end
 
     protected
